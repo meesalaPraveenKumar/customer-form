@@ -1,0 +1,380 @@
+#connection
+<?php
+
+    $conn=mysqli_connect("localhost","root","","reg");
+    if(!$conn){
+        echo "Connection is not established";
+    }
+?>
+#registration page form
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+     <!-- Latest compiled and minified CSS -->
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+</head>
+<body class="bg-danger">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-lg-push-4 col-md-push-4">
+                <div class="panel panel-success" style="margin-top:120px">
+                    <div class="panel-heading" id="c1">Register</div>
+                        <div class="panel-body" id="c2">
+                            <form action="" method="POST">
+                                <div class="form-group">
+                                    <input type="text" name="user_name" class="form-control input-sm" placeholder="Name" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="password" name="user_password" class="form-control input-sm" placeholder="Password" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="email" name="user_email" class="form-control input-sm" placeholder="Email" required>
+                                </div>
+
+                                <input type="submit" name="user_reg" class="btn btn-success btn-sm" value="Register">
+
+                                <a href="login.php" class="btn btn-info btn-sm">Login</a>
+                                <a href="del.php" class="btn btn-danger btn-sm">Delete</a>
+                                <a href="update.php" class="btn btn-primary btn-sm">Update</a>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+
+    
+
+<?php
+
+include("conn.php");
+
+if(isset($_POST['user_reg']))
+{
+$user_name=$_POST['user_name'];
+$user_email=$_POST['user_email'];
+$user_password=$_POST['user_password'];
+$query1="SELECT * FROM users WHERE useremail='$user_email'";
+$res=mysqli_query($conn,$query1);
+if(mysqli_num_rows($res)>0)
+{
+    echo "User with this email Already Exists";
+}
+else{
+$query="INSERT INTO users(username,userpassword,useremail) VALUES('$user_name','$user_password','$user_email')";
+if(mysqli_query($conn,$query))
+{
+    echo "Registration successful";
+}
+else
+{
+    echo "Registration unsuccessful";
+}
+}
+
+}
+?>
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+</body>
+</html>
+# login page form
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+     <!-- Latest compiled and minified CSS -->
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-lg-push-4 col-md-push-4">
+                <div class="panel panel-success" style="margin-top:120px">
+                    <div class="panel-heading" id="c1">Login</div>
+                        <div class="panel-body" id="c2">
+                            <form action="" method="POST">
+                                
+                                <div class="form-group">
+                                    <input type="email" name="user_email" class="form-control input-sm" placeholder="Email" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" name="user_password" class="form-control input-sm" placeholder="Password" required>
+                                </div>
+
+                               
+
+                                <input type="submit" name="user_login" class="btn btn-success btn-sm" value="Login">
+
+                                <a href="register.php" class="btn btn-info btn-sm">Register</a>
+                                <a href="del.php" class="btn btn-danger btn-sm">Delete</a>
+                                <a href="update.php" class="btn btn-primary btn-sm">Update</a>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+
+    
+
+<?php
+
+include("conn.php");
+if(isset($_POST['user_login']))
+{
+    $user_email=$_POST['user_email'];
+    $user_password=$_POST['user_password'];
+    $query="SELECT * FROM users WHERE useremail='$user_email' AND userpassword='$user_password' ";
+    $res=mysqli_query($conn,$query);
+    if(mysqli_num_rows($res)>0)
+    {
+        echo "Login Successful";
+    }
+    else{
+        echo "Login unsuccessful";
+    }
+
+}
+
+
+?>
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+</body>
+</html>
+#update form page
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+     <!-- Latest compiled and minified CSS -->
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-lg-push-4 col-md-push-4">
+                <div class="panel panel-success" style="margin-top:120px">
+                    <div class="panel-heading" id="c1">Update</div>
+                        <div class="panel-body" id="c2">
+                            <form action="" method="POST">
+                                
+
+                                <div class="form-group">
+                                    <input type="text" name="user_name" class="form-control input-sm" placeholder="Name" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="password" name="user_password" class="form-control input-sm" placeholder="Password" required>
+                                </div>
+
+                                <input type="submit" name="user_edit" class="btn btn-success btn-sm" value="Edit">
+
+                                <a href="register.php" class="btn btn-info btn-sm">Back</a>
+                               
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+
+    
+
+<?php
+
+session_start();
+include("conn.php");
+
+if(isset($_POST['user_edit']))
+{
+
+$user_name=$_POST['user_name'];
+$user_password=$_POST['user_password'];
+
+$user_email=$_SESSION['user_email'];
+
+$query="UPDATE users SET username='$user_name',userpassword='$user_password' WHERE useremail='$user_email'";
+    if(mysqli_query($conn,$query))
+    {
+        echo "Updated Successful";
+    }
+
+else
+{
+    echo "Not updated";
+}
+}
+?>
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+</body>
+</html>
+#edit form page
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+     <!-- Latest compiled and minified CSS -->
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-lg-push-4 col-md-push-4">
+                <div class="panel panel-success" style="margin-top:120px">
+                    <div class="panel-heading" id="c1">Update</div>
+                        <div class="panel-body" id="c2">
+                            <form action="" method="POST">
+                                
+
+                                <div class="form-group">
+                                    <input type="text" name="user_name" class="form-control input-sm" placeholder="Name" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="password" name="user_password" class="form-control input-sm" placeholder="Password" required>
+                                </div>
+
+                                <input type="submit" name="user_edit" class="btn btn-success btn-sm" value="Edit">
+
+                                <a href="register.php" class="btn btn-info btn-sm">Back</a>
+                               
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+
+    
+
+<?php
+
+session_start();
+include("conn.php");
+
+if(isset($_POST['user_edit']))
+{
+
+$user_name=$_POST['user_name'];
+$user_password=$_POST['user_password'];
+
+$user_email=$_SESSION['user_email'];
+
+$query="UPDATE users SET username='$user_name',userpassword='$user_password' WHERE useremail='$user_email'";
+    if(mysqli_query($conn,$query))
+    {
+        echo "Updated Successful";
+    }
+
+else
+{
+    echo "Not updated";
+}
+}
+?>
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+</body>
+</html>
+#del
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+     <!-- Latest compiled and minified CSS -->
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-lg-push-4 col-md-push-4">
+                <div class="panel panel-success" style="margin-top:120px">
+                    <div class="panel-heading" id="c1">Register</div>
+                        <div class="panel-body" id="c2">
+                            <form action="" method="POST">
+                                
+
+                                <div class="form-group">
+                                    <input type="email" name="user_email" class="form-control input-sm" placeholder="Email" required>
+                                </div>
+
+                                <input type="submit" name="user_del" class="btn btn-success btn-sm" value="Delete">
+
+                                <a href="register.php" class="btn btn-info btn-sm">Back</a>
+                               
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+
+    
+
+<?php
+
+include("conn.php");
+
+if(isset($_POST['user_del']))
+{
+
+$user_email=$_POST['user_email'];
+$query1="SELECT * FROM users WHERE useremail='$user_email'";
+$res=mysqli_query($conn,$query1);
+if(mysqli_num_rows($res)>0)
+{
+    $query="DELETE FROM users WHERE useremail='$user_email'";
+    if(mysqli_query($conn,$query))
+    {
+ 
+        echo "Deleted Successful";
+    }
+}
+else
+{
+    echo "User not found";
+}
+}
+?>
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+</body>
+</html>
